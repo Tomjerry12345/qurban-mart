@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "119371938355",
+    "project_id": "qurban-mart",
+    "storage_bucket": "qurban-mart.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:119371938355:android:ef283b713191811639c146",
+        "android_client_info": {
+          "package_name": "com.example.qurban_mart"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfefIWvLD0EOfBfMQQcQimwyWJxMfywFA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
