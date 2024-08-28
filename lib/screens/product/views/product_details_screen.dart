@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:qurban_mart/components/cart_button.dart';
 import 'package:qurban_mart/constants.dart';
 import 'package:qurban_mart/controller/auth_controller.dart';
