@@ -7,8 +7,7 @@ import 'package:flutter/material.dart';
 import '../../../constants.dart';
 
 class TableData extends StatefulWidget {
-  final void Function(dynamic d, dynamic id)? onClickDetail;
-  const TableData({Key? key, this.onClickDetail}) : super(key: key);
+  const TableData({Key? key}) : super(key: key);
 
   @override
   State<TableData> createState() => _TableDataState();
@@ -20,12 +19,21 @@ class _TableDataState extends State<TableData> {
     final fs = FirebaseServices();
 
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        stream: fs.getDataQueryStream("user", "type", "user"),
+        stream: fs.getDataStreamCollection("user"),
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            final data = snapshot.data?.docs;
+          if (snapshot.data != null) {
+            final docs = snapshot.data?.docs;
+
+            List<DataUser> data = [];
+
+            if (docs!.isNotEmpty) {
+              data = docs.map((doc) {
+                return DataUser.fromMap(doc.data());
+              }).toList();
+            }
 
             return Container(
+              // width: 500,
               padding: EdgeInsets.all(defaultPadding),
               decoration: BoxDecoration(
                 color: secondaryColor,
@@ -34,10 +42,6 @@ class _TableDataState extends State<TableData> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Text(
-                  //   "Recent Files",
-                  //   style: Theme.of(context).textTheme.titleMedium,
-                  // ),
                   SizedBox(
                     width: double.infinity,
                     child: DataTable(
@@ -45,25 +49,18 @@ class _TableDataState extends State<TableData> {
                       // minWidth: 600,
                       columns: [
                         DataColumn(
-                          label: Text("Nama"),
+                          label: Text("Gambar"),
                         ),
                         DataColumn(
-                          label: Text("NIK"),
+                          label: Text("Username"),
                         ),
                         DataColumn(
-                          label: Text("Jenis Kelamin"),
-                        ),
-                        DataColumn(
-                          label: Text("Email"),
-                        ),
-                        DataColumn(
-                          label: Text("No Telepon"),
+                          label: Text("Nama lengkap"),
                         ),
                       ],
                       rows: List.generate(
-                        data!.length,
-                        (index) => demoDataRow(
-                            data[index], context, fs, widget.onClickDetail),
+                        data.length,
+                        (index) => demoDataRow(data[index]),
                       ),
                     ),
                   ),
@@ -75,19 +72,21 @@ class _TableDataState extends State<TableData> {
           return CircularProgressIndicator();
         });
   }
-}
 
-DataRow demoDataRow(QueryDocumentSnapshot<Map<String, dynamic>> snap, context,
-    fs, void Function(dynamic d, dynamic id)? onClickDetail) {
-  final data = DataUser.fromJson(snap.data());
-
-  return DataRow(
-    cells: [
-      DataCell(Text(data.nama)),
-      DataCell(Text(data.nik)),
-      DataCell(Text(data.jenisKelamin)),
-      DataCell(Text(data.email)),
-      DataCell(Text(data.noTelepon)),
-    ],
-  );
+  DataRow demoDataRow(DataUser data) {
+    return DataRow(
+      cells: [
+        DataCell(Image.network(
+          data.image!,
+          height: 30,
+          width: 30,
+          errorBuilder: (context, error, stackTrace) {
+            return Icon(Icons.error, color: Colors.red);
+          },
+        )),
+        DataCell(Text(data.username.toString())),
+        DataCell(Text(data.nama.toString())),
+      ],
+    );
+  }
 }

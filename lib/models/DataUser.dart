@@ -1,20 +1,13 @@
 class DataUser {
-  final String nama, nik, jenisKelamin, email, noTelepon;
+  final String? image, nama, username;
 
-  DataUser(
-      {this.nama = "",
-      this.nik = "",
-      this.jenisKelamin = "",
-      this.email = "",
-      this.noTelepon = ""});
+  DataUser({this.image, this.username, this.nama});
 
-  factory DataUser.fromJson(Map<String, dynamic> data) {
+  factory DataUser.fromMap(Map<String, dynamic> data) {
     return DataUser(
-      nama: data["nama"],
-      nik: data["nik"],
-      jenisKelamin: data["jenis_kelamin"],
-      email: data["email"],
-      noTelepon: data["no_telepon"],
+      image: data["image"],
+      username: data["username"],
+      nama: data["namaLengkap"],
     );
   }
 }

@@ -12,16 +12,6 @@ class CustomersScreen extends StatefulWidget {
 }
 
 class _CustomersScreenState extends State<CustomersScreen> {
-  Data? data;
-  String? id;
-
-  void onClickDetail(data, id) {
-    setState(() {
-      this.data = data;
-      this.id = id;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -41,7 +31,7 @@ class _CustomersScreenState extends State<CustomersScreen> {
                   flex: 5,
                   child: Column(
                     children: [
-                      TableData(onClickDetail: onClickDetail),
+                      TableData(),
                     ],
                   ),
                 ),
