@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:qurban_mart/constants.dart';
 import 'package:qurban_mart/models/user_model.dart';
 import 'package:qurban_mart/services/firebase_services.dart';
+import 'package:qurban_mart/values/output_utils.dart';
 import 'package:qurban_mart/values/share_reference_utils.dart';
 
 class AuthController extends GetxController {
@@ -132,6 +133,7 @@ class AuthController extends GetxController {
 
   void getCurrentUser() async {
     final current = await _refs.getString(KEY_USERNAME);
+    logO("current", m: current);
     currentUser.value = current.toString();
   }
 }

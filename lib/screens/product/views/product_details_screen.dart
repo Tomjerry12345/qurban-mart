@@ -5,6 +5,7 @@ import 'package:qurban_mart/constants.dart';
 import 'package:qurban_mart/controller/auth_controller.dart';
 import 'package:qurban_mart/controller/produk_controller.dart';
 import 'package:qurban_mart/models/product_model.dart';
+import 'package:qurban_mart/route/route_constants.dart';
 import 'package:qurban_mart/values/output_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'components/product_images.dart';
@@ -50,6 +51,14 @@ class ProductDetailsScreen extends StatelessWidget {
         title: "Simpan",
         price: product.harga!.toDouble(),
         press: () {
+          if (authController.currentUser.value == "") {
+            showSnackbar("Terjadi kesalahan!",
+                "Login terlebih dahulu untuk memesan!", StatusSnackbar.error);
+            authController.onLogout();
+            Navigator.pushNamedAndRemoveUntil(context, logInScreenRoute,
+                ModalRoute.withName(entryPointScreenRoute));
+            return;
+          }
           produkController.addToCart(product, authController.currentUser.value);
         },
       ),
