@@ -11,6 +11,7 @@ class MapsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mapsController = Get.put(MapsController());
+    final latLng = mapsController.latLng.value;
 
     return Obx(
       () => FlutterMap(
@@ -21,19 +22,21 @@ class MapsScreen extends StatelessWidget {
               // page.changePage(tambahProductScreenRoute);
             },
             bounds: LatLngBounds.fromPoints([
-              LatLng(-5.2052182, 119.4963806),
+              mapsController.latLng.value == null
+                  ? LatLng(-5.2052182, 119.4963806)
+                  : latLng!,
             ]),
             maxZoom: 18),
         nonRotatedChildren: [
           TileLayer(
             urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-            subdomains: ['a', 'b', 'c'],
+            subdomains: const ['a', 'b', 'c'],
           ),
           if (mapsController.latLng.value != null)
             MarkerLayer(
               markers: [
                 Marker(
-                  point: mapsController.latLng.value!,
+                  point: latLng!,
                   builder: (ctx) => const Icon(
                     Icons.location_on,
                     color: Colors.red,

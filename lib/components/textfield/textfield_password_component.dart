@@ -1,3 +1,4 @@
+import 'package:admin_qurban_mart/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
@@ -48,7 +49,7 @@ class TextfieldPasswordComponent extends StatelessWidget {
                       : Icons.visibility_off)),
               hintStyle: const TextStyle(color: Colors.grey),
               filled: true,
-              // fillColor: Colors.blueGrey[50],
+              fillColor: secondaryColor,
               labelStyle: TextStyle(fontSize: 12),
               contentPadding: EdgeInsets.only(left: 30),
               enabledBorder: OutlineInputBorder(

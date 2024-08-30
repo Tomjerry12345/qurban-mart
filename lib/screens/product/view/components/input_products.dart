@@ -3,20 +3,26 @@ import 'package:admin_qurban_mart/components/text/text_component.dart';
 import 'package:admin_qurban_mart/components/textfield/dropdown_component.dart';
 import 'package:admin_qurban_mart/components/textfield/textfield_component.dart';
 import 'package:admin_qurban_mart/constants.dart';
+import 'package:admin_qurban_mart/controllers/maps_controller.dart';
 import 'package:admin_qurban_mart/controllers/page_controller.dart';
 import 'package:admin_qurban_mart/controllers/product_controller.dart';
 import 'package:admin_qurban_mart/models/File.dart';
 import 'package:admin_qurban_mart/router/router_constant.dart';
+import 'package:admin_qurban_mart/screens/product/map/maps_screen.dart';
 import 'package:admin_qurban_mart/services/firebase_services.dart';
 import 'package:admin_qurban_mart/values/output_utils.dart';
 import 'package:admin_qurban_mart/values/position_utils.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker_web/image_picker_web.dart';
+import 'package:latlong2/latlong.dart';
 
 class InputProducts extends StatelessWidget {
   final GetxPageController c = Get.find();
   final ProductController p = Get.put(ProductController());
+  final mapsController = Get.put(MapsController());
+
   final fs = FirebaseServices();
 
   final List<String> kurbanItems = ['Konsumsi', 'Kurban', "Akikah"];
@@ -26,7 +32,8 @@ class InputProducts extends StatelessWidget {
   final kategoriController = TextEditingController();
   final usiaController = TextEditingController();
   final beratController = TextEditingController();
-  final lokasiController = TextEditingController();
+  final latController = TextEditingController();
+  final lngController = TextEditingController();
   final noHpController = TextEditingController();
 
   final isLoading = false.obs;
@@ -42,13 +49,44 @@ class InputProducts extends StatelessWidget {
     kategoriController.text = prod.kategori.toString();
     usiaController.text = prod.usia.toString();
     beratController.text = prod.berat.toString();
-    lokasiController.text = prod.lokasi.toString();
+    latController.text = prod.location!.latitude.toString();
+    lngController.text = prod.location!.longitude.toString();
     noHpController.text = prod.noHp.toString();
 
+    mapsController.latLng.value =
+        LatLng(prod.location!.latitude, prod.location!.longitude);
+
     return ObxValue<Rx<FileModel?>>((file) {
+      if (mapsController.latLng.value != null) {
+        final valMaps = mapsController.latLng.value;
+        latController.text = valMaps!.latitude.toString();
+        lngController.text = valMaps.longitude.toString();
+      }
+
       void onSelectedDropdown(String item) {
         logO("item", m: item);
         kategoriController.text = item;
+      }
+
+      void onPickMaps() {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return StatefulBuilder(builder: (BuildContext context,
+                  void Function(void Function()) setState) {
+                return Dialog(
+                    insetPadding: const EdgeInsets.symmetric(horizontal: 150),
+                    child: Stack(
+                      children: [
+                        Container(
+                            width: double.infinity,
+                            height: 620,
+                            padding: const EdgeInsets.all(20),
+                            child: const MapsScreen()),
+                      ],
+                    ));
+              });
+            });
       }
 
       Future<void> onPickImage() async {
@@ -70,7 +108,8 @@ class InputProducts extends StatelessWidget {
         final kategori = kategoriController.text;
         final usia = usiaController.text;
         final berat = beratController.text;
-        final lokasi = lokasiController.text;
+        final lat = latController.text;
+        final lng = lngController.text;
         final noHp = noHpController.text;
 
         if (nama.isEmpty ||
@@ -78,9 +117,9 @@ class InputProducts extends StatelessWidget {
             kategori.isEmpty ||
             usia.isEmpty ||
             berat.isEmpty ||
-            lokasi.isEmpty ||
-            noHp.isEmpty ||
-            file.value == null) {
+            lat.isEmpty ||
+            lng.isEmpty ||
+            noHp.isEmpty) {
           Get.snackbar(
             "Error",
             "Semua field harus diisi dan gambar harus dipilih!",
@@ -93,20 +132,24 @@ class InputProducts extends StatelessWidget {
 
         isLoading.value = true; // Set status loading ke true
 
-        final image = file.value!.file;
-        final fileName = file.value!.nama;
-
         try {
-          final urlImage = await fs.uploadFile(image!, fileName, "images");
+          var urlImage = prod.image;
 
-          await fs.updateDataAllDoc("produk", prod.id.toString(), {
-            "id": prod.id.toString(),
+          if (file.value != null) {
+            final image = file.value?.file;
+            final fileName = file.value?.nama;
+            urlImage = await fs.uploadFile(image!, fileName!, "images");
+          }
+
+          await fs.updateDataSpecifictDoc("produk", prod.id.toString(), {
+            // "id": prod.id.toString(),
             "nama": nama,
             "harga": int.parse(harga),
             "kategori": kategori,
             "usia": int.parse(usia),
             "berat": int.parse(berat),
-            "lokasi": lokasi,
+            "location": GeoPoint(
+                double.tryParse(lat) ?? 0.0, double.tryParse(lng) ?? 0.0),
             "noHp": noHp,
             "image": urlImage
           });
@@ -118,6 +161,8 @@ class InputProducts extends StatelessWidget {
             backgroundColor: Colors.green,
             colorText: Colors.white,
           );
+
+          mapsController.reset();
 
           c.changePage(managementProductScreenRoute);
         } catch (e) {
@@ -207,8 +252,37 @@ class InputProducts extends StatelessWidget {
               ],
             ),
             V(16),
-            TextfieldComponent(
-                controller: lokasiController, hintText: "Lokasi", size: 14),
+            Row(
+              children: [
+                Expanded(
+                  child: TextfieldComponent(
+                    controller: latController,
+                    hintText: "Lat",
+                    enabled: false,
+                    size: 14,
+                    inputType: TextInputType.number,
+                  ),
+                ),
+                H(16),
+                Expanded(
+                  child: TextfieldComponent(
+                      controller: lngController,
+                      hintText: "Long",
+                      enabled: false,
+                      size: 14,
+                      inputType: TextInputType.number),
+                )
+              ],
+            ),
+            V(16),
+            ButtonComponent(
+              "Pilih lokasi",
+              onPressed: () {
+                // c.changePage(mapsScreenRoute);
+                onPickMaps();
+              },
+              color: primaryColor,
+            ),
             V(16),
             TextfieldComponent(
                 controller: noHpController,

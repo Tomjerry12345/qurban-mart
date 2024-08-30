@@ -7,8 +7,6 @@ const bgColor = Color(0xFF212332);
 const tabActivateColor = Color.fromARGB(255, 35, 38, 52);
 const tabNotactivateColor = Color.fromARGB(255, 68, 74, 101);
 
-// Color? btnColor = Colors.blue[800];
-
 const defaultPadding = 16.0;
 
-const String apiKey = "QILGlvvYIhzPILGUjPMcPFwoMgTs0PKn";
+const KEY_ISLOGGING = "is-logging";

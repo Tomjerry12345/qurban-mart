@@ -1,4 +1,5 @@
 import 'package:admin_qurban_mart/controllers/MenuAppController.dart';
+import 'package:admin_qurban_mart/controllers/auth_controller.dart';
 import 'package:admin_qurban_mart/controllers/page_controller.dart';
 import 'package:admin_qurban_mart/responsive.dart';
 import 'package:admin_qurban_mart/router/router.dart';
@@ -16,10 +17,12 @@ class MainScreen extends StatelessWidget {
 
   final fs = FirebaseServices();
 
+  final authController = Get.find<AuthController>();
+
   @override
   Widget build(BuildContext context) {
     Future<void> onLogout() async {
-      await fs.updateIsLoggin(false);
+      authController.logOut();
     }
 
     void onTapDrawer(int i) {

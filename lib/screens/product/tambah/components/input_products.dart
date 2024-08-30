@@ -28,7 +28,6 @@ class InputProducts extends StatelessWidget {
   final kategoriController = TextEditingController();
   final usiaController = TextEditingController();
   final beratController = TextEditingController();
-  final lokasiController = TextEditingController();
   final latController = TextEditingController();
   final lngController = TextEditingController();
   final noHpController = TextEditingController();
@@ -43,6 +42,7 @@ class InputProducts extends StatelessWidget {
         latController.text = valMaps!.latitude.toString();
         lngController.text = valMaps.longitude.toString();
       }
+
       void onPickMaps() {
         showDialog(
             context: context,
@@ -139,6 +139,8 @@ class InputProducts extends StatelessWidget {
             backgroundColor: Colors.green,
             colorText: Colors.white,
           );
+
+          mapsController.reset();
 
           c.changePage(managementProductScreenRoute);
         } catch (e) {

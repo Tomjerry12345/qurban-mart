@@ -2,6 +2,9 @@ import 'package:admin_qurban_mart/values/position_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/snackbar/snackbar.dart';
 
 void showToast(msg) {
   Fluttertoast.showToast(
@@ -53,4 +56,17 @@ showLoaderDialog(context) {
 
 closeDialog(context) {
   Navigator.of(context, rootNavigator: true).pop();
+}
+
+enum StatusSnackbar { success, error }
+
+void showSnackbar(String title, String message, StatusSnackbar status) {
+  Get.snackbar(
+    title,
+    message,
+    snackPosition: SnackPosition.BOTTOM,
+    backgroundColor:
+        status == StatusSnackbar.success ? Colors.green : Colors.red,
+    colorText: Colors.white,
+  );
 }
