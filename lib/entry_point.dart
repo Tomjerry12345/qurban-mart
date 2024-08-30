@@ -55,9 +55,6 @@ class _EntryPointState extends State<EntryPoint> {
       _loadUserName();
       return Scaffold(
         appBar: AppBar(
-          // pinned: true,
-          // floating: true,
-          // snap: true,
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           leading: const SizedBox(),
           leadingWidth: 0,

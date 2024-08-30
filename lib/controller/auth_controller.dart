@@ -151,6 +151,6 @@ class AuthController extends GetxController {
   void getCurrentUser() async {
     final current = await _refs.getString(KEY_USERNAME);
     logO("current", m: current);
-    currentUser.value = current.toString();
+    currentUser.value = current ?? '';
   }
 }
