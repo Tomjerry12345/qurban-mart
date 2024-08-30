@@ -26,7 +26,7 @@ class Product {
       usia: data['usia'] ?? 0,
       berat: data['berat'] ?? 0,
       lokasi: data['location'],
-      noHp: data['noHp'] ?? '',
+      noHp: "+62${data['noHp']}",
       image: data['image'] ?? '',
       status: data['status'] ?? '',
     );
