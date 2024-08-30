@@ -5,7 +5,6 @@ import 'package:qurban_mart/controller/auth_controller.dart';
 import 'package:qurban_mart/controller/cart_controller.dart';
 
 import '../../../../constants.dart';
-import '../../../../route/route_constants.dart';
 
 class DataCart extends StatelessWidget {
   const DataCart({
@@ -50,11 +49,11 @@ class DataCart extends StatelessWidget {
                             ),
                         child: SecondaryProductCard(
                           data: dataCart[index],
-                          press: () {
-                            Navigator.pushNamed(
-                                context, productDetailsScreenRoute,
-                                arguments: index.isEven);
-                          },
+                          // press: () {
+                          //   Navigator.pushNamed(
+                          //       context, productDetailsScreenRoute,
+                          //       arguments: index.isEven);
+                          // },
                         ),
                       )),
             ),

@@ -108,6 +108,24 @@ class AuthController extends GetxController {
     }
   }
 
+  Future<void> editImage(String id) async {
+    File file = File(selectedImagePath.value);
+    String fileName =
+        "${username.value}_${DateTime.now().millisecondsSinceEpoch}.png";
+
+    final urlImage = await _fs.uploadFile(file, fileName, "user");
+
+    await _fs.updateDataSpecifictDoc("user", id, {
+      "image": urlImage,
+    });
+  }
+
+  Future<void> updateNamaLengkap(String id, String namaLengkap) async {
+    await _fs.updateDataSpecifictDoc("user", id, {
+      "namaLengkap": namaLengkap,
+    });
+  }
+
   void onLogout() {
     _refs.setString(KEY_USERNAME, "");
   }

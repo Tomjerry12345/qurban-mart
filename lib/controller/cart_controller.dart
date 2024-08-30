@@ -26,7 +26,6 @@ class CartController extends GetxController {
         final dataProduk = snapProduk.data();
         if (dataProduk != null) {
           if (dataProduk["status"] == belumTerjual) {
-            logO("produk", m: dataProduk);
             cart.add(Cart.fromMap(dataCart));
           }
         }

@@ -120,8 +120,6 @@ class SecondaryProductCard extends StatelessWidget {
                               icon: const Icon(Icons.location_on,
                                   size: 20, color: Colors.red),
                               onPressed: () {
-                                logO("test");
-                                logO("lokasi", m: data.lokasi);
                                 if (data.lokasi != null) {
                                   openMaps(data.lokasi!.latitude,
                                       data.lokasi!.longitude);
