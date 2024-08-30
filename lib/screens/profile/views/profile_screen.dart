@@ -37,8 +37,8 @@ class ProfileScreen extends StatelessWidget {
                 leading: const Icon(Icons.photo_library),
                 title: const Text('Gallery'),
                 onTap: () {
-                  controller.pickImage(source: ImageSource.gallery);
-                  controller.editImage(user.id.toString());
+                  controller.editImage(
+                      source: ImageSource.gallery, id: user.id.toString());
                   Navigator.of(context).pop();
                 },
               ),
@@ -46,8 +46,8 @@ class ProfileScreen extends StatelessWidget {
                 leading: const Icon(Icons.camera_alt),
                 title: const Text('Camera'),
                 onTap: () {
-                  controller.pickImage(source: ImageSource.camera);
-                  controller.editImage(user.id.toString());
+                  controller.editImage(
+                      source: ImageSource.camera, id: user.id.toString());
                   Navigator.of(context).pop();
                 },
               ),
@@ -81,37 +81,41 @@ class ProfileScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  GestureDetector(
-                    onTap: () => showImageSourceActionSheet(
-                        context, authController, user),
-                    child: Stack(
-                      children: [
-                        CircleAvatar(
-                          radius: 70,
-                          child: NetworkImageWithLoader(
-                            user.image.toString(),
-                            radius: 100,
+                  Obx(
+                    () => GestureDetector(
+                      onTap: () => showImageSourceActionSheet(
+                          context, authController, user),
+                      child: Stack(
+                        children: [
+                          CircleAvatar(
+                            radius: 70,
+                            child: authController.loadingUploadImage.value
+                                ? CircularProgressIndicator()
+                                : NetworkImageWithLoader(
+                                    user.image.toString(),
+                                    radius: 100,
+                                  ),
                           ),
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          right: 0,
-                          child: InkWell(
-                            onTap: () {
-                              // Tambahkan aksi ketika ikon edit diklik
-                            },
-                            child: const CircleAvatar(
-                              backgroundColor: Colors.white,
-                              radius: 20,
-                              child: Icon(
-                                Icons.edit,
-                                color: primaryColor,
-                                size: 20,
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: InkWell(
+                              onTap: () {
+                                // Tambahkan aksi ketika ikon edit diklik
+                              },
+                              child: const CircleAvatar(
+                                backgroundColor: Colors.white,
+                                radius: 20,
+                                child: Icon(
+                                  Icons.edit,
+                                  color: primaryColor,
+                                  size: 20,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   V(32),

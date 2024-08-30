@@ -49,7 +49,7 @@ class _ProductImagesState extends State<ProductImages> {
               },
               itemCount: widget.images.length,
               itemBuilder: (context, index) => Padding(
-                padding: const EdgeInsets.only(right: defaultPadding),
+                padding: const EdgeInsets.only(right: 0),
                 child: ClipRRect(
                   borderRadius: const BorderRadius.all(
                     Radius.circular(defaultBorderRadious * 2),

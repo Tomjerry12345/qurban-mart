@@ -108,6 +108,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       const Text("Don't have an account?"),
                       TextButton(
                         onPressed: () {
+                          authController.clearInput();
+
                           Navigator.pushNamed(context, signUpScreenRoute);
                         },
                         child: const Text("Sign up"),

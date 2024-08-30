@@ -15,6 +15,7 @@ class AuthController extends GetxController {
   var password = ''.obs;
   var isLoading = false.obs; // Status loading
   var selectedImagePath = ''.obs;
+  var loadingUploadImage = false.obs;
 
   var currentUser = ''.obs;
 
@@ -32,8 +33,36 @@ class AuthController extends GetxController {
     final ImagePicker _picker = ImagePicker();
     final XFile? image = await _picker.pickImage(source: source);
 
+    logO("image", m: image?.path);
+
     if (image != null) {
       selectedImagePath.value = image.path;
+    } else {
+      Get.snackbar("Error", "No image selected");
+    }
+  }
+
+  Future<void> editImage(
+      {required ImageSource source, required String id}) async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? image = await _picker.pickImage(source: source);
+
+    if (image != null) {
+      loadingUploadImage.value = true;
+
+      File file = File(image.path);
+      String fileName =
+          "${username.value}_${DateTime.now().millisecondsSinceEpoch}.png";
+
+      final urlImage = await _fs.uploadFile(file, fileName, "user");
+
+      logO("urlImage", m: urlImage);
+
+      await _fs.updateDataSpecifictDoc("user", id, {
+        "image": urlImage,
+      });
+
+      loadingUploadImage.value = false;
     } else {
       Get.snackbar("Error", "No image selected");
     }
@@ -62,7 +91,7 @@ class AuthController extends GetxController {
         throw Exception('Username tidak terdaftar!');
       }
     } catch (e) {
-      // Tangani kesalahan jika ada
+      logO("error-image", m: e);
       rethrow;
     } finally {
       isLoading.value = false; // Set loading false setelah proses selesai
@@ -107,18 +136,6 @@ class AuthController extends GetxController {
     } finally {
       isLoading.value = false; // Set loading false setelah proses selesai
     }
-  }
-
-  Future<void> editImage(String id) async {
-    File file = File(selectedImagePath.value);
-    String fileName =
-        "${username.value}_${DateTime.now().millisecondsSinceEpoch}.png";
-
-    final urlImage = await _fs.uploadFile(file, fileName, "user");
-
-    await _fs.updateDataSpecifictDoc("user", id, {
-      "image": urlImage,
-    });
   }
 
   Future<void> updateNamaLengkap(String id, String namaLengkap) async {

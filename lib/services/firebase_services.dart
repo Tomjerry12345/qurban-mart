@@ -81,6 +81,18 @@ class FirebaseServices {
     return data.docs;
   }
 
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>>
+      getDataCollection2ByQuery(String collection, String query, dynamic value,
+          String query2, dynamic value2) async {
+    final data = await _db
+        .collection(collection)
+        .where(query, isEqualTo: value)
+        .where(query2, isEqualTo: value2)
+        .get();
+
+    return data.docs;
+  }
+
   Future<void> updateDataAllDoc(String collection, String doc, data) async =>
       _db.collection(collection).doc(doc).set(data);
 

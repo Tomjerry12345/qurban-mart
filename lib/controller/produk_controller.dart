@@ -17,8 +17,8 @@ class ProdukController extends GetxController {
   }
 
   Future<void> addToCart(Product product, String user) async {
-    final checkDuplikat =
-        await _fs.getDataCollectionByQuery("cart", "idProduk", product.id);
+    final checkDuplikat = await _fs.getDataCollection2ByQuery(
+        "cart", "idProduk", product.id, "pembeli", user);
 
     if (checkDuplikat.isNotEmpty) {
       showSnackbar("Pesan!", "Produk telah di simpan!", StatusSnackbar.error);
