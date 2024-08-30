@@ -12,6 +12,7 @@ class TextfieldComponent extends StatelessWidget {
   final double? size;
   final int? maxLines;
   final TextAlignVertical? textAlignVertical;
+  final Widget? prefixIcon;
 
   const TextfieldComponent(
       {this.hintText = "",
@@ -23,7 +24,8 @@ class TextfieldComponent extends StatelessWidget {
       this.enabled = true,
       this.size,
       this.maxLines,
-      this.textAlignVertical});
+      this.textAlignVertical,
+      this.prefixIcon});
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +41,7 @@ class TextfieldComponent extends StatelessWidget {
         decoration: InputDecoration(
           hintText: hintText,
           // label: Text(label),
+          prefixIcon: prefixIcon,
           hintStyle: TextStyle(color: Colors.grey),
           filled: true,
           fillColor: secondaryColor,

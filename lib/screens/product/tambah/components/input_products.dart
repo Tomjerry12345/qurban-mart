@@ -276,10 +276,23 @@ class InputProducts extends StatelessWidget {
             ),
             V(16),
             TextfieldComponent(
-                controller: noHpController,
-                hintText: "No Hp",
-                size: 14,
-                inputType: TextInputType.phone),
+              controller: noHpController,
+              hintText: "855555",
+              size: 14,
+              inputType: TextInputType.phone,
+              prefixIcon: Padding(
+                padding: const EdgeInsets.symmetric(
+                    vertical: 14,
+                    horizontal: 8), // Padding untuk jarak horizontal
+                child: Text(
+                  '+62',
+                  style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.normal),
+                ),
+              ),
+            ),
             V(24),
             Obx(() {
               return Container(
