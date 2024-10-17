@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
-        android:label="Qurban mart"
+        android:label="Farm Goat"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
