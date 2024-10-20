@@ -37,7 +37,7 @@ class MapsScreen extends StatelessWidget {
             MarkerLayer(
               markers: [
                 Marker(
-                  point: latLng!,
+                  point: latLng,
                   builder: (ctx) => const Icon(
                     Icons.location_on,
                     color: Colors.red,
