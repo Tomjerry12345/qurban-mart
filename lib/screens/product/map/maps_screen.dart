@@ -11,22 +11,23 @@ class MapsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mapsController = Get.put(MapsController());
-    final latLng = mapsController.latLng.value;
+    final latLng =
+        mapsController.latLng.value ?? LatLng(-4.5094675, 121.5148604);
 
     return Obx(
       () => FlutterMap(
         options: MapOptions(
-            onTap: (tapPosition, point) {
-              mapsController.setLatlng(point);
-              navigatePop(context);
-              // page.changePage(tambahProductScreenRoute);
-            },
-            bounds: LatLngBounds.fromPoints([
-              mapsController.latLng.value == null
-                  ? LatLng(-5.2052182, 119.4963806)
-                  : latLng!,
-            ]),
-            maxZoom: 18),
+          center: latLng, // Menetapkan pusat awal peta
+          maxZoom: 18.0, // Zoom maksimal
+          onTap: (tapPosition, point) {
+            mapsController.setLatlng(point);
+            navigatePop(context);
+            // page.changePage(tambahProductScreenRoute);
+          },
+          bounds: LatLngBounds.fromPoints([
+            latLng,
+          ]),
+        ),
         nonRotatedChildren: [
           TileLayer(
             urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
