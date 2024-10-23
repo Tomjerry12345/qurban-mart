@@ -82,15 +82,15 @@ class ProductDetailsScreen extends StatelessWidget {
             ProductInfo(
               brand: product.kategori.toString(),
               title: product.nama.toString(),
-              isAvailable: true,
-              description:
-                  "A cool gray cap in soft corduroy. Watch me.' By buying cotton products from Lindex, you’re supporting more responsibly...",
-              rating: 4.4,
-              numOfReviews: 126,
+              // isAvailable: true,
+              // description:
+              //     "A cool gray cap in soft corduroy. Watch me.' By buying cotton products from Lindex, you’re supporting more responsibly...",
+              // rating: 4.4,
+              // numOfReviews: 126,
             ),
             ProductListTile(
               title: "Umur",
-              value: "${product.usia} kg",
+              value: "${product.usia} Bulan",
             ),
             ProductListTile(
               title: "Berat",

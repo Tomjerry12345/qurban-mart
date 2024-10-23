@@ -7,16 +7,16 @@ class ProductInfo extends StatelessWidget {
     super.key,
     required this.title,
     required this.brand,
-    required this.description,
-    required this.rating,
-    required this.numOfReviews,
-    required this.isAvailable,
+    // required this.description,
+    // required this.rating,
+    // required this.numOfReviews,
+    // required this.isAvailable,
   });
 
-  final String title, brand, description;
-  final double rating;
-  final int numOfReviews;
-  final bool isAvailable;
+  final String title, brand; // description;
+  // final double rating;
+  // final int numOfReviews;
+  // final bool isAvailable;
 
   @override
   Widget build(BuildContext context) {
