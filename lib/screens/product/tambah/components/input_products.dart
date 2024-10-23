@@ -227,7 +227,7 @@ class InputProducts extends StatelessWidget {
                 Expanded(
                   child: TextfieldComponent(
                     controller: usiaController,
-                    hintText: "Usia",
+                    hintText: "Usia (Bulan)",
                     size: 14,
                     inputType: TextInputType.number,
                   ),
