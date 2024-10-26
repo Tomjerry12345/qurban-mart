@@ -83,7 +83,7 @@ class ProductCard extends StatelessWidget {
                       ),
                       const Spacer(),
                       Text(
-                        "$age tahun",
+                        "$age bulan",
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium!
