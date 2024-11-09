@@ -6,6 +6,7 @@ import 'package:admin_qurban_mart/constants.dart';
 import 'package:admin_qurban_mart/controllers/maps_controller.dart';
 import 'package:admin_qurban_mart/controllers/page_controller.dart';
 import 'package:admin_qurban_mart/models/File.dart';
+import 'package:admin_qurban_mart/models/Products.dart';
 import 'package:admin_qurban_mart/router/router_constant.dart';
 import 'package:admin_qurban_mart/screens/product/map/maps_screen.dart';
 import 'package:admin_qurban_mart/services/firebase_services.dart';
@@ -31,6 +32,8 @@ class InputProducts extends StatelessWidget {
   final latController = TextEditingController();
   final lngController = TextEditingController();
   final noHpController = TextEditingController();
+  final namaPenjualController = TextEditingController();
+  final noRekeningController = TextEditingController();
 
   final isLoading = false.obs; // Observable untuk status loading
 
@@ -91,6 +94,8 @@ class InputProducts extends StatelessWidget {
         final noHp = noHpController.text;
         final lat = latController.text;
         final lng = lngController.text;
+        final namaPenjual = namaPenjualController.text;
+        final noRekening = noRekeningController.text;
 
         if (nama.isEmpty ||
             harga.isEmpty ||
@@ -100,6 +105,8 @@ class InputProducts extends StatelessWidget {
             noHp.isEmpty ||
             lat.isEmpty ||
             lng.isEmpty ||
+            namaPenjual.isEmpty ||
+            noRekening.isEmpty ||
             file.value == null) {
           Get.snackbar(
             "Error",
@@ -119,18 +126,39 @@ class InputProducts extends StatelessWidget {
         try {
           final urlImage = await fs.uploadFile(image!, fileName, "images");
 
-          await fs.addDataCollection("produk", {
-            "nama": nama,
-            "harga": int.parse(harga),
-            "kategori": kategori,
-            "usia": int.parse(usia),
-            "berat": int.parse(berat),
-            "noHp": noHp,
-            "image": urlImage,
-            "status": "Belum terjual",
-            "location": GeoPoint(
-                double.tryParse(lat) ?? 0.0, double.tryParse(lng) ?? 0.0),
-          });
+          final product = Product(
+              image: urlImage,
+              nama: nama,
+              harga: int.parse(harga),
+              kategori: kategori,
+              usia: int.parse(usia),
+              berat: int.parse(berat),
+              noHp: noHp,
+              status: StatusPenjualan.belumTerjual.deskripsi,
+              statusPengiriman: StatusPengiriman.belumDikirim.deskripsi,
+              statusPembayaran: StatusPembayaran.belumDibayar.deskripsi,
+              location: GeoPoint(
+                  double.tryParse(lat) ?? 0.0, double.tryParse(lng) ?? 0.0),
+              namaPenjual: namaPenjual,
+              noRekening: noRekening,
+              isPemesan: false);
+
+          await fs.addDataCollection("produk", product.toMap());
+
+          // await fs.addDataCollection("produk", {
+          //   "nama": nama,
+          //   "harga": int.parse(harga),
+          //   "kategori": kategori,
+          //   "usia": int.parse(usia),
+          //   "berat": int.parse(berat),
+          //   "noHp": noHp,
+          //   "image": urlImage,
+          //   "status": "Belum terjual",
+          //   "location": GeoPoint(
+          //       double.tryParse(lat) ?? 0.0, double.tryParse(lng) ?? 0.0),
+          //   "namaPenjual": namaPenjual,
+          //   "noRekening": noRekening
+          // });
 
           Get.snackbar(
             "Success",
@@ -292,6 +320,27 @@ class InputProducts extends StatelessWidget {
                       fontWeight: FontWeight.normal),
                 ),
               ),
+            ),
+            V(16),
+            Row(
+              children: [
+                Expanded(
+                  child: TextfieldComponent(
+                    controller: namaPenjualController,
+                    hintText: "Nama penjual (Berdasarkan no rekening)",
+                    size: 14,
+                    inputType: TextInputType.text,
+                  ),
+                ),
+                H(16),
+                Expanded(
+                  child: TextfieldComponent(
+                      controller: noRekeningController,
+                      hintText: "No. Rekening",
+                      size: 14,
+                      inputType: TextInputType.number),
+                )
+              ],
             ),
             V(24),
             Obx(() {

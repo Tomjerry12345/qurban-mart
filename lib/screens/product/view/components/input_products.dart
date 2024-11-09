@@ -7,6 +7,7 @@ import 'package:admin_qurban_mart/controllers/maps_controller.dart';
 import 'package:admin_qurban_mart/controllers/page_controller.dart';
 import 'package:admin_qurban_mart/controllers/product_controller.dart';
 import 'package:admin_qurban_mart/models/File.dart';
+import 'package:admin_qurban_mart/models/Products.dart';
 import 'package:admin_qurban_mart/router/router_constant.dart';
 import 'package:admin_qurban_mart/screens/product/map/maps_screen.dart';
 import 'package:admin_qurban_mart/services/firebase_services.dart';
@@ -35,6 +36,8 @@ class InputProducts extends StatelessWidget {
   final latController = TextEditingController();
   final lngController = TextEditingController();
   final noHpController = TextEditingController();
+  final namaPenjualController = TextEditingController();
+  final noRekeningController = TextEditingController();
 
   final isLoading = false.obs;
 
@@ -52,6 +55,8 @@ class InputProducts extends StatelessWidget {
     latController.text = prod.location!.latitude.toString();
     lngController.text = prod.location!.longitude.toString();
     noHpController.text = prod.noHp.toString();
+    namaPenjualController.text = prod.namaPenjual.toString();
+    noRekeningController.text = prod.noRekening.toString();
 
     mapsController.latLng.value =
         LatLng(prod.location!.latitude, prod.location!.longitude);
@@ -111,6 +116,8 @@ class InputProducts extends StatelessWidget {
         final lat = latController.text;
         final lng = lngController.text;
         final noHp = noHpController.text;
+        final namaPenjual = namaPenjualController.text;
+        final noRekening = noRekeningController.text;
 
         if (nama.isEmpty ||
             harga.isEmpty ||
@@ -119,6 +126,8 @@ class InputProducts extends StatelessWidget {
             berat.isEmpty ||
             lat.isEmpty ||
             lng.isEmpty ||
+            namaPenjual.isEmpty ||
+            noRekening.isEmpty ||
             noHp.isEmpty) {
           Get.snackbar(
             "Error",
@@ -151,7 +160,9 @@ class InputProducts extends StatelessWidget {
             "location": GeoPoint(
                 double.tryParse(lat) ?? 0.0, double.tryParse(lng) ?? 0.0),
             "noHp": noHp,
-            "image": urlImage
+            "image": urlImage,
+            "namaPenjual": namaPenjual,
+            "noRekening": noRekening,
           });
 
           Get.snackbar(
@@ -301,6 +312,27 @@ class InputProducts extends StatelessWidget {
                       fontWeight: FontWeight.normal),
                 ),
               ),
+            ),
+            V(16),
+            Row(
+              children: [
+                Expanded(
+                  child: TextfieldComponent(
+                    controller: namaPenjualController,
+                    hintText: "Nama penjual (Berdasarkan no rekening)",
+                    size: 14,
+                    inputType: TextInputType.text,
+                  ),
+                ),
+                H(16),
+                Expanded(
+                  child: TextfieldComponent(
+                      controller: noRekeningController,
+                      hintText: "No. Rekening",
+                      size: 14,
+                      inputType: TextInputType.number),
+                )
+              ],
             ),
             V(24),
             Obx(() {

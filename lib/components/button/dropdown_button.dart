@@ -1,22 +1,31 @@
-import 'package:admin_qurban_mart/values/output_utils.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 
 class DropdownButtonComponent extends StatelessWidget {
-  const DropdownButtonComponent({super.key});
+  final List<String> items;
+  final String? defaultValue;
+  final Color? color;
+  final Function(String?)? onChanged;
+
+  const DropdownButtonComponent(
+      {super.key,
+      required this.items,
+      this.defaultValue,
+      this.color,
+      this.onChanged});
 
   @override
   Widget build(BuildContext context) {
     return DropdownButtonHideUnderline(
       child: DropdownButton2<String>(
         isExpanded: true,
-        hint: const Row(
+        hint: Row(
           children: [
             Expanded(
               child: Text(
-                'Belum terjual',
+                defaultValue.toString(),
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: 10,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
@@ -25,13 +34,13 @@ class DropdownButtonComponent extends StatelessWidget {
             ),
           ],
         ),
-        items: ["Test"]
+        items: items
             .map((String item) => DropdownMenuItem<String>(
                   value: item,
                   child: Text(
                     item,
                     style: const TextStyle(
-                      fontSize: 14,
+                      fontSize: 10,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
@@ -41,7 +50,9 @@ class DropdownButtonComponent extends StatelessWidget {
             .toList(),
         // value: selectedValue,
         onChanged: (value) {
-          logO(value);
+          if (onChanged != null) {
+            onChanged!(value);
+          }
         },
         iconStyleData: const IconStyleData(
           // icon: Icon(
@@ -53,16 +64,16 @@ class DropdownButtonComponent extends StatelessWidget {
         ),
         buttonStyleData: ButtonStyleData(
           height: 32,
-          width: 144,
+          width: 120,
           padding: const EdgeInsets.only(left: 14, right: 14),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(50),
             border: Border.all(
               color: Colors.black26,
             ),
-            color: Colors.red,
+            color: color,
           ),
-          elevation: 2,
+          // elevation: 2,
         ),
         // dropdownStyleData: DropdownStyleData(
         //   maxHeight: 200,

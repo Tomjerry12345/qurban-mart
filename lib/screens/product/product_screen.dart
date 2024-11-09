@@ -41,10 +41,16 @@ class ProductScreen extends StatelessWidget {
               }).toList();
             }
 
-            List<Product> dataBelumTerjual =
-                data.where((e) => e.status == "Belum terjual").toList();
-            List<Product> dataTelahTerjual =
-                data.where((e) => e.status == "Telah terjual").toList();
+            List<Product> dataBelumTerjual = data
+                .where((e) =>
+                    e.statusPengiriman !=
+                    StatusPengiriman.pesananSelesai.deskripsi)
+                .toList();
+            List<Product> dataTelahTerjual = data
+                .where((e) =>
+                    e.statusPengiriman ==
+                    StatusPengiriman.pesananSelesai.deskripsi)
+                .toList();
 
             return Obx(() => SafeArea(
                   child: SingleChildScrollView(
