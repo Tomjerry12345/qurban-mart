@@ -39,7 +39,9 @@ class HomeScreen extends StatelessWidget {
                     .map((doc) {
                       return Product.fromMap(doc.data());
                     })
-                    .where((product) => product.status == belumTerjual)
+                    .where((product) =>
+                        product.statusPembayaran !=
+                        StatusPembayaran.pembayaranBerhasil.deskripsi)
                     .toList();
               }
 

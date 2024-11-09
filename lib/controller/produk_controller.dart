@@ -25,8 +25,8 @@ class ProdukController extends GetxController {
       return;
     }
 
-    await _fs.addDataCollection(
-        "cart", {...product.toMap(), "idProduk": product.id, "pembeli": user});
+    await _fs
+        .addDataCollection("cart", {"idProduk": product.id, "pembeli": user});
 
     showSnackbar("Pesan!", "Berhasil tambah produk!", StatusSnackbar.success);
   }

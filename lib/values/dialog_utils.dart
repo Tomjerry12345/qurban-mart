@@ -5,7 +5,10 @@ Future<void> dialogShow({context, title, content, actions}) async {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(title),
+          title: Text(
+            title,
+            style: TextStyle(fontSize: 20),
+          ),
           content: content,
           actions: actions,
         );

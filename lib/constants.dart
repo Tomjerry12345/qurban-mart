@@ -91,3 +91,33 @@ const pasNotMatchErrorText = "passwords do not match";
 
 const KEY_USERNAME = "username";
 const belumTerjual = "Belum terjual";
+
+enum StatusPenjualan {
+  belumTerjual("Belum terjual"),
+  terjual("Terjual");
+
+  final String deskripsi;
+
+  const StatusPenjualan(this.deskripsi);
+}
+
+enum StatusPengiriman {
+  belumDikirim("Belum dikirim"),
+  sedangDiantar("Sedang diantar"),
+  pesananSelesai("Pesanan selesai");
+
+  final String deskripsi;
+
+  const StatusPengiriman(this.deskripsi);
+}
+
+enum StatusPembayaran {
+  belumDibayar("Belum dibayar"),
+  pembayaranDiProses("Pembayaran di proses"),
+  pembayaranBerhasil("Pembayaran berhasil"),
+  pembayaranGagal("Pembayaran gagal");
+
+  final String deskripsi;
+
+  const StatusPembayaran(this.deskripsi);
+}

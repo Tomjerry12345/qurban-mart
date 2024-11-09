@@ -56,8 +56,6 @@ class AuthController extends GetxController {
 
       final urlImage = await _fs.uploadFile(file, fileName, "user");
 
-      logO("urlImage", m: urlImage);
-
       await _fs.updateDataSpecifictDoc("user", id, {
         "image": urlImage,
       });

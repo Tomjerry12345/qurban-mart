@@ -46,21 +46,24 @@ class ProductDetailsScreen extends StatelessWidget {
       }
     }
 
+    Future<void> onSimpan() async {
+      if (authController.currentUser.value == "") {
+        showSnackbar("Terjadi kesalahan!",
+            "Login terlebih dahulu untuk memesan!", StatusSnackbar.error);
+        authController.onLogout();
+        Navigator.pushNamedAndRemoveUntil(context, logInScreenRoute,
+            ModalRoute.withName(entryPointScreenRoute));
+        return;
+      }
+
+      produkController.addToCart(product, authController.currentUser.value);
+    }
+
     return Scaffold(
       bottomNavigationBar: CartButton(
         title: "Simpan",
         price: product.harga!.toDouble(),
-        press: () {
-          if (authController.currentUser.value == "") {
-            showSnackbar("Terjadi kesalahan!",
-                "Login terlebih dahulu untuk memesan!", StatusSnackbar.error);
-            authController.onLogout();
-            Navigator.pushNamedAndRemoveUntil(context, logInScreenRoute,
-                ModalRoute.withName(entryPointScreenRoute));
-            return;
-          }
-          produkController.addToCart(product, authController.currentUser.value);
-        },
+        press: onSimpan,
       ),
       body: SafeArea(
         child: CustomScrollView(
@@ -97,6 +100,28 @@ class ProductDetailsScreen extends StatelessWidget {
               value: "${product.berat} kg",
             ),
             ProductListTile(
+              title: "Nama penjual",
+              value: product.namaPenjual.toString(),
+              isShowBottomBorder: true,
+            ),
+            ProductListTile(
+              title: "No. Rekening",
+              value: product.noRekening.toString(),
+              isShowBottomBorder: true,
+            ),
+            const SliverToBoxAdapter(
+              child: SizedBox(height: defaultPadding),
+            ),
+            ProductListTile(
+              title: "No hp",
+              value: product.noHp.toString(),
+              isShowBottomBorder: true,
+              press: () {
+                openWhatsAppOrCall(product.noHp.toString(),
+                    'Halo, saya tertarik dengan produk ini.');
+              },
+            ),
+            ProductListTile(
               title: "Lokasi",
               value: "",
               isShowBottomBorder: true,
@@ -111,18 +136,6 @@ class ProductDetailsScreen extends StatelessWidget {
                 openMaps(product.lokasi!.latitude, product.lokasi!.longitude);
               },
             ),
-            ProductListTile(
-              title: "No hp",
-              value: product.noHp.toString(),
-              isShowBottomBorder: true,
-              press: () {
-                openWhatsAppOrCall(product.noHp.toString(),
-                    'Halo, saya tertarik dengan produk ini.');
-              },
-            ),
-            const SliverToBoxAdapter(
-              child: SizedBox(height: defaultPadding),
-            )
           ],
         ),
       ),

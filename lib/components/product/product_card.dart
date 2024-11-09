@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:qurban_mart/values/math_utils.dart';
 
 import '../../constants.dart';
 import '../network_image_with_loader.dart';
@@ -105,7 +106,7 @@ class ProductCard extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        "Rp. ${currencyFormat.format(price)}",
+                        "Rp. ${currencyFormat.format(price)} /",
                         style: const TextStyle(
                           color: Color(0xFF31B0D8),
                           fontWeight: FontWeight.w500,
@@ -114,6 +115,14 @@ class ProductCard extends StatelessWidget {
                       ),
                       Spacer(),
                     ],
+                  ),
+                  Text(
+                    "DP: Rp. ${currencyFormat.format(calculatePercent(20, price!.toDouble()))}",
+                    style: const TextStyle(
+                      color: Color.fromARGB(255, 216, 77, 49),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 12,
+                    ),
                   ),
                 ],
               ),

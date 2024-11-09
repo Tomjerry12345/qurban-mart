@@ -1,9 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Product {
-  final String? id, image, nama, kategori, noHp, status;
+  final String? id,
+      image,
+      nama,
+      kategori,
+      noHp,
+      status,
+      statusPengiriman,
+      statusPembayaran,
+      namaPenjual,
+      noRekening,
+      buktiPembayaran,
+      idCart;
   final GeoPoint? lokasi;
   final int? harga, usia, berat;
+  final bool? isPemesan;
 
   Product(
       {this.id,
@@ -15,7 +27,14 @@ class Product {
       this.kategori,
       this.lokasi,
       this.noHp,
-      this.status});
+      this.status,
+      this.statusPengiriman,
+      this.statusPembayaran,
+      this.namaPenjual,
+      this.noRekening,
+      this.buktiPembayaran,
+      this.idCart,
+      this.isPemesan});
 
   factory Product.fromMap(Map<String, dynamic> data) {
     return Product(
@@ -29,6 +48,13 @@ class Product {
       noHp: "+62${data['noHp']}",
       image: data['image'] ?? '',
       status: data['status'] ?? '',
+      statusPengiriman: data['statusPengiriman'] ?? '',
+      statusPembayaran: data['statusPembayaran'] ?? '',
+      namaPenjual: data['namaPenjual'] ?? '',
+      noRekening: data['noRekening'] ?? '',
+      buktiPembayaran: data['buktiPembayaran'] ?? '',
+      idCart: data['idCart'] ?? '',
+      isPemesan: data['isPemesan'] ?? '',
     );
   }
 
@@ -43,7 +69,14 @@ class Product {
       'berat': berat,
       'lokasi': lokasi,
       'noHp': noHp,
-      'status': status, // Pastikan status di sini jika diperlukan
+      'status': status,
+      'statusPengiriman': statusPengiriman,
+      'statusPembayaran': statusPembayaran,
+      'namaPenjual': namaPenjual,
+      'noRekening': noRekening,
+      'buktiPembayaran': buktiPembayaran,
+      'idCart': idCart,
+      'isPemesan': isPemesan,
     };
   }
 }
