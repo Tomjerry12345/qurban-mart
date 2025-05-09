@@ -1,3 +1,4 @@
+import 'package:qurban_mart/components/maps/maps_component.dart';
 import 'package:qurban_mart/models/product_model.dart';
 import 'package:qurban_mart/route/route_constants.dart';
 import 'package:qurban_mart/screens/auth/views/signup_screen.dart';
@@ -190,6 +191,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case entryPointScreenRoute:
       return MaterialPageRoute(
         builder: (context) => const EntryPoint(),
+      );
+    case mapScreenRoute:
+      return MaterialPageRoute(
+        builder: (context) => const MapsScreen(),
       );
     // case profileScreenRoute:
     //   return MaterialPageRoute(

@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:qurban_mart/controller/cart_controller.dart';
-import 'package:qurban_mart/models/cart_model.dart';
+import 'package:qurban_mart/controller/maps_controller.dart';
+import 'package:qurban_mart/route/route_constants.dart';
 import 'package:qurban_mart/values/dialog_utils.dart';
 import 'package:qurban_mart/values/math_utils.dart';
 import 'package:qurban_mart/values/output_utils.dart';
@@ -30,6 +30,7 @@ class SecondaryProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartController = Get.find<CartController>();
+    final mapController = Get.put(MapsController());
     final NumberFormat currencyFormat = NumberFormat.decimalPattern('id');
 
     Future<void> openWhatsAppOrCall(String phoneNumber, String message) async {
@@ -54,6 +55,31 @@ class SecondaryProductCard extends StatelessWidget {
       } else {
         throw 'Could not launch $url';
       }
+    }
+
+    void onPickMaps() {
+      Navigator.pushNamed(
+        context,
+        mapScreenRoute,
+      );
+      // showDialog(
+      //     context: context,
+      //     builder: (BuildContext context) {
+      //       return StatefulBuilder(builder: (BuildContext context,
+      //           void Function(void Function()) setState) {
+      //         return Dialog(
+      //             insetPadding: const EdgeInsets.symmetric(horizontal: 150),
+      //             child: Stack(
+      //               children: [
+      //                 Container(
+      //                     width: double.infinity,
+      //                     height: 620,
+      //                     padding: const EdgeInsets.all(20),
+      //                     child: MapsScreen()),
+      //               ],
+      //             ));
+      //       });
+      //     });
     }
 
     void showPaymentDialog() {
@@ -218,6 +244,45 @@ class SecondaryProductCard extends StatelessWidget {
                       'Rp. ${currencyFormat.format(calculatePercent(20, data.produk.harga!.toDouble()))}',
                       style: TextStyle(fontSize: 14),
                     ),
+                  ),
+                  Divider(
+                    color: Colors.grey,
+                  ), //
+                  Obx(
+                    () => ListTile(
+                      title: Text(
+                        'Lokasi',
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w500),
+                      ),
+                      subtitle: mapController.latLng.value == null
+                          ? Text("lokasi belum dipilih")
+                          : Text(
+                              "lat: ${mapController.latLng.value?.latitude}, long: ${mapController.latLng.value?.longitude}",
+                              style: TextStyle(fontSize: 14),
+                            ),
+                    ),
+                  ),
+
+                  SizedBox(
+                    width: 160,
+                    height: 46,
+                    child: ElevatedButton(
+                        onPressed: () {
+                          onPickMaps();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors
+                              .blue, // Ubah warna background menjadi hijau
+                        ),
+                        child: const Text(
+                          'Pilih lokasi pengiriman',
+                          style: TextStyle(fontSize: 12),
+                        )),
+                  ),
+
+                  SizedBox(
+                    height: 16,
                   ),
                 ],
               ),

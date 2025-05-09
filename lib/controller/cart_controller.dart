@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:qurban_mart/constants.dart';
 import 'package:qurban_mart/controller/auth_controller.dart';
+import 'package:qurban_mart/controller/maps_controller.dart';
 import 'package:qurban_mart/models/cart_model.dart';
 import 'package:qurban_mart/models/product_model.dart';
 import 'package:qurban_mart/services/firebase_services.dart';
@@ -30,6 +32,7 @@ class CartController extends GetxController {
 
   final _fs = FirebaseServices();
   final authController = Get.put(AuthController());
+  final mapController = Get.put(MapsController());
 
   var loading = false.obs;
   Rxn<XFile> buktiPembayaran = Rxn<XFile>();
@@ -89,7 +92,13 @@ class CartController extends GetxController {
         "idCart": id,
         "buktiPembayaran": urlImage,
         "statusPembayaran": StatusPembayaran.pembayaranDiProses.deskripsi,
-        "isPemesan": true
+        "isPemesan": true,
+        "lokasiPengiriman": mapController.latLng.value != null
+            ? GeoPoint(
+                mapController.latLng.value!.latitude,
+                mapController.latLng.value!.longitude,
+              )
+            : null,
       });
 
       loading.value = false;
