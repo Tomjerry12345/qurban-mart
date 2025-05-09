@@ -16,6 +16,7 @@ class Product {
       buktiPembayaran;
   final int? harga, usia, berat;
   final GeoPoint? location;
+  final GeoPoint? locationPengiriman;
   final bool? isPemesan;
 
   Product(
@@ -33,6 +34,7 @@ class Product {
       this.statusPengiriman,
       this.statusPembayaran,
       this.location,
+      this.locationPengiriman,
       this.namaPenjual,
       this.noRekening,
       this.buktiPembayaran,
@@ -53,7 +55,8 @@ class Product {
       status: data['status'] ?? '',
       statusPengiriman: data['statusPengiriman'] ?? '',
       statusPembayaran: data['statusPembayaran'] ?? '',
-      location: data['location'] ?? '',
+      location: data['location'],
+      locationPengiriman: data['lokasiPengiriman'],
       namaPenjual: data['namaPenjual'] ?? '',
       noRekening: data['noRekening'] ?? '',
       buktiPembayaran: data['buktiPembayaran'] ?? '',
@@ -77,6 +80,7 @@ class Product {
       'statusPengiriman': statusPengiriman,
       'statusPembayaran': statusPembayaran,
       'location': location,
+      'locationPengiriman': locationPengiriman,
       'namaPenjual': namaPenjual,
       'noRekening': noRekening,
       'buktiPembayaran': buktiPembayaran,

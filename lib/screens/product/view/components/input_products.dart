@@ -7,7 +7,6 @@ import 'package:admin_qurban_mart/controllers/maps_controller.dart';
 import 'package:admin_qurban_mart/controllers/page_controller.dart';
 import 'package:admin_qurban_mart/controllers/product_controller.dart';
 import 'package:admin_qurban_mart/models/File.dart';
-import 'package:admin_qurban_mart/models/Products.dart';
 import 'package:admin_qurban_mart/router/router_constant.dart';
 import 'package:admin_qurban_mart/screens/product/map/maps_screen.dart';
 import 'package:admin_qurban_mart/services/firebase_services.dart';
@@ -58,9 +57,6 @@ class InputProducts extends StatelessWidget {
     namaPenjualController.text = prod.namaPenjual.toString();
     noRekeningController.text = prod.noRekening.toString();
 
-    mapsController.latLng.value =
-        LatLng(prod.location!.latitude, prod.location!.longitude);
-
     return ObxValue<Rx<FileModel?>>((file) {
       if (mapsController.latLng.value != null) {
         final valMaps = mapsController.latLng.value;
@@ -74,6 +70,31 @@ class InputProducts extends StatelessWidget {
       }
 
       void onPickMaps() {
+        mapsController.latLng.value =
+            LatLng(prod.location!.latitude, prod.location!.longitude);
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return StatefulBuilder(builder: (BuildContext context,
+                  void Function(void Function()) setState) {
+                return Dialog(
+                    insetPadding: const EdgeInsets.symmetric(horizontal: 150),
+                    child: Stack(
+                      children: [
+                        Container(
+                            width: double.infinity,
+                            height: 620,
+                            padding: const EdgeInsets.all(20),
+                            child: const MapsScreen()),
+                      ],
+                    ));
+              });
+            });
+      }
+
+      void onShowLokasiPengirman() {
+        mapsController.latLng.value = LatLng(prod.locationPengiriman!.latitude,
+            prod.locationPengiriman!.longitude);
         showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -293,6 +314,20 @@ class InputProducts extends StatelessWidget {
                 onPickMaps();
               },
               color: primaryColor,
+            ),
+            V(16),
+            ButtonComponent(
+              "Lihat lokasi pembeli",
+              onPressed: () {
+                // c.changePage(mapsScreenRoute);
+                if (prod.locationPengiriman != null) {
+                  onShowLokasiPengirman();
+                } else {
+                  showSnackbar("Terjadi kesalahan!", "Lokasi belum tersedia",
+                      StatusSnackbar.error);
+                }
+              },
+              color: Colors.green,
             ),
             V(16),
             TextfieldComponent(

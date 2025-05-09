@@ -18,49 +18,21 @@
 
     <meta charset="UTF-8" />
     <meta content="IE=Edge" http-equiv="X-UA-Compatible" />
-    <meta name="description" content="A new Flutter project." />
+    <meta name="description" content="Admin farm goat" />
 
     <!-- iOS meta tags & icons -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <meta name="apple-mobile-web-app-title" content="admin_qurban_mart" />
+    <meta name="apple-mobile-web-app-title" content="admin_farm_goat" />
     <link rel="apple-touch-icon" href="icons/Icon-192.png" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="favicon.png" />
 
-    <title>admin_qurban_mart</title>
+    <title>admin_farm_goat</title>
     <link rel="manifest" href="manifest.json" />
-
-    <script>
-      // The value below is injected by flutter build, do not touch.
-      const serviceWorkerVersion = null;
-    </script>
-    <!-- This script adds the flutter initialization JS code -->
-    <script src="flutter.js" defer></script>
   </head>
   <body>
-    <script>
-      window.addEventListener("load", function (ev) {
-        // var loading = document.querySelector('#loading');
-        // loading.textContent = "Loading entrypoint...";
-        // Download main.dart.js
-        _flutter.loader.loadEntrypoint({
-          serviceWorker: {
-            serviceWorkerVersion: serviceWorkerVersion,
-          },
-          onEntrypointLoaded: async function (engineInitializer) {
-            let appRunner = await engineInitializer
-              .initializeEngine({
-                hostElement: document.querySelector("#flutter_app"),
-                renderer: "html",
-              })
-              .then(function (appRunner) {
-                return appRunner.runApp();
-              });
-          },
-        });
-      });
-    </script>
+    <script src="flutter_bootstrap.js" async></script>
   </body>
 </html>

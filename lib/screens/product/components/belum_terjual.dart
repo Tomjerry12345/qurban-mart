@@ -193,7 +193,6 @@ DataRow recentFileDataRow(Product data, BuildContext context) {
     final dataMap = data.toMap();
 
     try {
-      logO("id", m: data.id.toString());
       await fs.updateDataSpecifictDoc(
           "produk", data.id.toString(), {...dataMap, key: value});
     } catch (e) {
@@ -206,7 +205,6 @@ DataRow recentFileDataRow(Product data, BuildContext context) {
     final dataMap = data.toMap();
 
     try {
-      logO("id", m: data.id.toString());
       await fs
           .updateDataSpecifictDoc("cart", data.idCart.toString(), {key: value});
       await fs.updateDataSpecifictDoc("produk", data.id.toString(), {
@@ -216,6 +214,18 @@ DataRow recentFileDataRow(Product data, BuildContext context) {
         "isPemesan": false,
         "buktiPembayaran": ""
       });
+    } catch (e) {
+      logO("errro", m: e);
+    }
+  }
+
+  Future<void> updateStatusPengiriman(
+      {required String key, value, penjualan}) async {
+    final dataMap = data.toMap();
+
+    try {
+      await fs.updateDataSpecifictDoc("produk", data.id.toString(),
+          {...dataMap, key: value, "status": penjualan});
     } catch (e) {
       logO("errro", m: e);
     }
@@ -268,7 +278,17 @@ DataRow recentFileDataRow(Product data, BuildContext context) {
             ? Colors.red[500]
             : Colors.yellow[800],
         onChanged: (value) {
-          updateStatus(key: "statusPengiriman", value: value);
+          if (value == StatusPengiriman.pesananSelesai.deskripsi) {
+            updateStatusPengiriman(
+                key: "statusPengiriman",
+                value: value,
+                penjualan: StatusPenjualan.terjual.deskripsi);
+          } else {
+            updateStatusPengiriman(
+                key: "statusPengiriman",
+                value: value,
+                penjualan: StatusPenjualan.belumTerjual.deskripsi);
+          }
         },
       )),
       DataCell(
