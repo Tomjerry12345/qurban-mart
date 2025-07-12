@@ -49,11 +49,6 @@ class DataCart extends StatelessWidget {
                             ),
                         child: SecondaryProductCard(
                           data: dataCart[index],
-                          // press: () {
-                          //   Navigator.pushNamed(
-                          //       context, productDetailsScreenRoute,
-                          //       arguments: index.isEven);
-                          // },
                         ),
                       )),
             ),

@@ -62,24 +62,6 @@ class SecondaryProductCard extends StatelessWidget {
         context,
         mapScreenRoute,
       );
-      // showDialog(
-      //     context: context,
-      //     builder: (BuildContext context) {
-      //       return StatefulBuilder(builder: (BuildContext context,
-      //           void Function(void Function()) setState) {
-      //         return Dialog(
-      //             insetPadding: const EdgeInsets.symmetric(horizontal: 150),
-      //             child: Stack(
-      //               children: [
-      //                 Container(
-      //                     width: double.infinity,
-      //                     height: 620,
-      //                     padding: const EdgeInsets.all(20),
-      //                     child: MapsScreen()),
-      //               ],
-      //             ));
-      //       });
-      //     });
     }
 
     void showPaymentDialog() {
@@ -127,167 +109,154 @@ class SecondaryProductCard extends StatelessWidget {
       dialogShow(
         context: context,
         title: "Konfirmasi Pembayaran DP",
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Stack(
-              children: [
-                Obx(() {
-                  final img = cartController.buktiPembayaran.value;
-                  return GestureDetector(
-                      onTap: () async {
-                        showImageSourceActionSheet();
-                      },
-                      child: img != null
-                          ? Image.file(
-                              File(img.path),
-                              fit: BoxFit.cover,
-                              height: heightImage,
-                              width: widthImage,
-                            )
-                          : (data.produk.buktiPembayaran != ""
-                              ? Image.network(
-                                  data.produk.buktiPembayaran.toString(),
-                                  fit: BoxFit.cover,
-                                  height: heightImage,
-                                  width: widthImage,
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return Icon(Icons.broken_image,
-                                        color: Colors.red);
-                                  },
-                                )
-                              : Container(
-                                  height: 150,
-                                  width: 150,
-                                  color: Colors.grey[300],
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(
-                                        8.0), // Menambahkan padding di sekitar konten
-                                    child: Align(
-                                      alignment: Alignment
-                                          .center, // Memastikan teks berada di tengah
-                                      child: Text(
-                                        'Klik untuk mengganti gambar',
-                                        textAlign: TextAlign
-                                            .center, // Memastikan teks berada di tengah secara horizontal
-                                        style: TextStyle(
-                                          fontSize: 14, // Ukuran font
-                                          fontWeight:
-                                              FontWeight.w500, // Berat font
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Stack(
+                children: [
+                  Obx(() {
+                    final img = cartController.buktiPembayaran.value;
+                    return GestureDetector(
+                        onTap: () async {
+                          showImageSourceActionSheet();
+                        },
+                        child: img != null
+                            ? Image.file(
+                                File(img.path),
+                                fit: BoxFit.cover,
+                                height: heightImage,
+                                width: widthImage,
+                              )
+                            : (data.produk.buktiPembayaran != ""
+                                ? Image.network(
+                                    data.produk.buktiPembayaran.toString(),
+                                    fit: BoxFit.cover,
+                                    height: heightImage,
+                                    width: widthImage,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return Icon(Icons.broken_image,
+                                          color: Colors.red);
+                                    },
+                                  )
+                                : Container(
+                                    height: 150,
+                                    width: 150,
+                                    color: Colors.grey[300],
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(
+                                          8.0), // Menambahkan padding di sekitar konten
+                                      child: Align(
+                                        alignment: Alignment
+                                            .center, // Memastikan teks berada di tengah
+                                        child: Text(
+                                          'Klik untuk mengganti gambar',
+                                          textAlign: TextAlign
+                                              .center, // Memastikan teks berada di tengah secara horizontal
+                                          style: TextStyle(
+                                            fontSize: 14, // Ukuran font
+                                            fontWeight:
+                                                FontWeight.w500, // Berat font
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                )));
-                }),
-                // Positioned(
-                //   bottom: 0,
-                //   right: 0,
-                //   child: IconButton(
-                //     icon: Icon(
-                //       Icons.edit,
-                //       color: Colors.green,
-                //       size: 24,
-                //     ),
-                //     onPressed: () async {
-                //       await pickImage();
-                //       setState(() {});
-                //     },
-                //   ),
-                // ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            // Nama Penjual dan Nomor Rekening dengan Border
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey, width: 1),
-                borderRadius: BorderRadius.circular(8),
+                                  )));
+                  }),
+                ],
               ),
-              child: Column(
-                children: [
-                  ListTile(
-                    title: Text(
-                      'Nama Penjual',
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                    ),
-                    subtitle: Text(
-                      '${data.produk.namaPenjual}',
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  ),
-                  Divider(
-                    color: Colors.grey,
-                  ), // Batas antara nama penjual dan rekening
-                  ListTile(
-                    title: Text(
-                      'Nomor Rekening',
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                    ),
-                    subtitle: Text(
-                      '${data.produk.noRekening}',
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  ),
-                  Divider(
-                    color: Colors.grey,
-                  ), // Batas antara nama penjual dan rekening
-                  ListTile(
-                    title: Text(
-                      'Total DP',
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                    ),
-                    subtitle: Text(
-                      'Rp. ${currencyFormat.format(calculatePercent(20, data.produk.harga!.toDouble()))}',
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  ),
-                  Divider(
-                    color: Colors.grey,
-                  ), //
-                  Obx(
-                    () => ListTile(
+              const SizedBox(height: 16),
+              // Nama Penjual dan Nomor Rekening dengan Border
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey, width: 1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Column(
+                  children: [
+                    ListTile(
                       title: Text(
-                        'Lokasi',
+                        'Nama Penjual',
                         style: TextStyle(
                             fontSize: 14, fontWeight: FontWeight.w500),
                       ),
-                      subtitle: mapController.latLng.value == null
-                          ? Text("lokasi belum dipilih")
-                          : Text(
-                              "lat: ${mapController.latLng.value?.latitude}, long: ${mapController.latLng.value?.longitude}",
-                              style: TextStyle(fontSize: 14),
-                            ),
+                      subtitle: Text(
+                        '${data.produk.namaPenjual}',
+                        style: TextStyle(fontSize: 14),
+                      ),
                     ),
-                  ),
-
-                  SizedBox(
-                    width: 160,
-                    height: 46,
-                    child: ElevatedButton(
-                        onPressed: () {
-                          onPickMaps();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors
-                              .blue, // Ubah warna background menjadi hijau
+                    Divider(
+                      color: Colors.grey,
+                    ), // Batas antara nama penjual dan rekening
+                    ListTile(
+                      title: Text(
+                        'Nomor Rekening',
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w500),
+                      ),
+                      subtitle: Text(
+                        '${data.produk.noRekening}',
+                        style: TextStyle(fontSize: 14),
+                      ),
+                    ),
+                    Divider(
+                      color: Colors.grey,
+                    ), // Batas antara nama penjual dan rekening
+                    ListTile(
+                      title: Text(
+                        'Total DP',
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w500),
+                      ),
+                      subtitle: Text(
+                        'Rp. ${currencyFormat.format(calculatePercent(20, data.produk.harga!.toDouble()))}',
+                        style: TextStyle(fontSize: 14),
+                      ),
+                    ),
+                    Divider(
+                      color: Colors.grey,
+                    ), //
+                    Obx(
+                      () => ListTile(
+                        title: Text(
+                          'Lokasi',
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w500),
                         ),
-                        child: const Text(
-                          'Pilih lokasi pengiriman',
-                          style: TextStyle(fontSize: 12),
-                        )),
-                  ),
+                        subtitle: mapController.latLng.value == null
+                            ? Text("lokasi belum dipilih")
+                            : Text(
+                                "lat: ${mapController.latLng.value?.latitude}, long: ${mapController.latLng.value?.longitude}",
+                                style: TextStyle(fontSize: 14),
+                              ),
+                      ),
+                    ),
 
-                  SizedBox(
-                    height: 16,
-                  ),
-                ],
+                    SizedBox(
+                      width: 160,
+                      height: 46,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            onPickMaps();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors
+                                .blue, // Ubah warna background menjadi hijau
+                          ),
+                          child: const Text(
+                            'Pilih lokasi pengiriman',
+                            style: TextStyle(fontSize: 12),
+                          )),
+                    ),
+
+                    SizedBox(
+                      height: 16,
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         actions: [
           Obx(() {
@@ -375,18 +344,24 @@ class SecondaryProductCard extends StatelessWidget {
       onPressed: press,
       style: style ??
           OutlinedButton.styleFrom(
-              minimumSize: const Size(256, 144),
-              maximumSize: const Size(256, 144),
+              // minimumSize: const Size(256, 144),
+              minimumSize: const Size(0, 144),
+              // maximumSize: const Size(256, 144),
               padding: const EdgeInsets.all(8)),
       child: Row(
         children: [
-          AspectRatio(
-            aspectRatio: 1,
-            child: Stack(
-              children: [
-                NetworkImageWithLoader(data.produk.image.toString(),
-                    radius: defaultBorderRadious),
-              ],
+          SizedBox(
+            width: MediaQuery.of(context).size.width.clamp(80.0, 120.0),
+            child: AspectRatio(
+              aspectRatio: 1,
+              child: Stack(
+                children: [
+                  NetworkImageWithLoader(
+                    data.produk.image.toString(),
+                    radius: defaultBorderRadious,
+                  ),
+                ],
+              ),
             ),
           ),
           const SizedBox(width: defaultPadding / 4),
@@ -461,15 +436,6 @@ class SecondaryProductCard extends StatelessWidget {
                           fontSize: 12,
                         ),
                       ),
-                      // Spacer(), // Menambahkan Spacer untuk mendorong elemen ke kanan
-                      // Text(
-                      //   "DP: Rp. ${currencyFormat.format(calculatePercent(20, data.harga!.toDouble()))}",
-                      //   style: const TextStyle(
-                      //     color: Color.fromARGB(255, 216, 77, 49),
-                      //     fontWeight: FontWeight.w500,
-                      //     fontSize: 12,
-                      //   ),
-                      // ),
                     ],
                   ),
                   const SizedBox(height: defaultPadding / 2),

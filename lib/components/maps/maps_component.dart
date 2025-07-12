@@ -30,8 +30,13 @@ class MapsScreen extends StatelessWidget {
         ),
         nonRotatedChildren: [
           TileLayer(
-            urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-            subdomains: const ['a', 'b', 'c'],
+            // urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            urlTemplate:
+                "https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=NA6ibALK24VGI8vu5ydm",
+            // subdomains: const ['a', 'b', 'c'],
+            additionalOptions: {
+              'key': 'NA6ibALK24VGI8vu5ydm',
+            },
           ),
           if (mapsController.latLng.value != null)
             MarkerLayer(

@@ -1,7 +1,7 @@
 name: qurban_mart
-description: "A new Flutter project."
+description: "Marketplace qurban"
 publish_to: "none"
-version: 0.2.0
+version: 0.2.2
 
 environment:
   sdk: ">=3.2.5 <4.0.0"
@@ -26,6 +26,7 @@ dependencies:
   get: ^4.6.6
   crypto: ^3.0.2
   image_picker: ^1.0.8
+  # flutter_map: ^4.0.0
   flutter_map: ^4.0.0
   http: ^0.13.2
   latlong2: ^0.8.1
