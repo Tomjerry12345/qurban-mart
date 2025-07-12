@@ -245,6 +245,22 @@ DataRow recentFileDataRow(Product data, BuildContext context) {
     return color;
   }
 
+  Color? colorStatusPengiriman() {
+    Color? color = Colors.grey[500];
+
+    if (data.statusPembayaran ==
+        StatusPembayaran.pembayaranBerhasil.deskripsi) {
+      if (data.statusPengiriman == StatusPengiriman.belumDikirim.deskripsi) {
+        color = Colors.red[500];
+      } else if (data.statusPengiriman ==
+          StatusPengiriman.sedangDiantar.deskripsi) {
+        color = Colors.yellow[800];
+      }
+    }
+
+    return color;
+  }
+
   return DataRow(
     cells: [
       DataCell(Image.network(
@@ -274,22 +290,23 @@ DataRow recentFileDataRow(Product data, BuildContext context) {
           StatusPengiriman.pesananSelesai.deskripsi
         ],
         defaultValue: data.statusPengiriman,
-        color: data.statusPengiriman == StatusPengiriman.belumDikirim.deskripsi
-            ? Colors.red[500]
-            : Colors.yellow[800],
-        onChanged: (value) {
-          if (value == StatusPengiriman.pesananSelesai.deskripsi) {
-            updateStatusPengiriman(
-                key: "statusPengiriman",
-                value: value,
-                penjualan: StatusPenjualan.terjual.deskripsi);
-          } else {
-            updateStatusPengiriman(
-                key: "statusPengiriman",
-                value: value,
-                penjualan: StatusPenjualan.belumTerjual.deskripsi);
-          }
-        },
+        color: colorStatusPengiriman(),
+        onChanged: data.statusPembayaran ==
+                StatusPembayaran.pembayaranBerhasil.deskripsi
+            ? (value) {
+                if (value == StatusPengiriman.pesananSelesai.deskripsi) {
+                  updateStatusPengiriman(
+                      key: "statusPengiriman",
+                      value: value,
+                      penjualan: StatusPenjualan.terjual.deskripsi);
+                } else {
+                  updateStatusPengiriman(
+                      key: "statusPengiriman",
+                      value: value,
+                      penjualan: StatusPenjualan.belumTerjual.deskripsi);
+                }
+              }
+            : null,
       )),
       DataCell(
         Row(

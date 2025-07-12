@@ -66,7 +66,7 @@ class ProductScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Expanded(
-                              flex: 5,
+                              flex: 3,
                               child: Column(
                                 children: [
                                   // MyFiles(),
@@ -148,7 +148,7 @@ class ProductScreen extends StatelessWidget {
                             // On Mobile means if the screen is less than 850 we don't want to show it
                             if (!Responsive.isMobile(context))
                               Expanded(
-                                flex: 2,
+                                flex: 1,
                                 child: TotalPenjualan(dataTelahTerjual.length),
                               ),
                           ],

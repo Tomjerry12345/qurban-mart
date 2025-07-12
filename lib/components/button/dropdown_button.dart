@@ -49,11 +49,16 @@ class DropdownButtonComponent extends StatelessWidget {
                 ))
             .toList(),
         // value: selectedValue,
-        onChanged: (value) {
-          if (onChanged != null) {
-            onChanged!(value);
-          }
-        },
+        onChanged: onChanged == null
+            ? null
+            : (value) {
+                onChanged!(value);
+              },
+        // (value) {
+        //   if (onChanged != null) {
+        //     onChanged!(value);
+        //   }
+        // },
         iconStyleData: const IconStyleData(
           // icon: Icon(
           //   Icons.arrow_forward_ios_outlined,
